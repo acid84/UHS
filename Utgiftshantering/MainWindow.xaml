@@ -1,0 +1,78 @@
+﻿<Window x:Class="Utgiftshantering.MainWindow"
+		Name="_window"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:r="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary" 
+		Title="UHS" Height="804" Width="1125">
+	<Window.Resources>
+		<ControlTemplate x:Key="RibbonButtonLogo" TargetType="{x:Type r:RibbonButton}">
+			<StackPanel x:Name="RibbonButtonLogoPanel" Width="68" Height="68">
+				<Image Source="{TemplateBinding LargeImageSource}" Width="68" Height="68"></Image>
+			</StackPanel>
+			<ControlTemplate.Triggers>
+				<Trigger Property="IsMouseOver" Value="True">
+					<Setter TargetName="RibbonButtonLogoPanel" Property="Background">
+						<Setter.Value>
+							<RadialGradientBrush>
+								<GradientStop Color="#88FFFFFF" Offset="0" />
+								<GradientStop Color="Transparent" Offset="1" />
+							</RadialGradientBrush>
+						</Setter.Value>
+					</Setter>
+				</Trigger>
+			</ControlTemplate.Triggers>
+		</ControlTemplate>
+		<ControlTemplate x:Key="RibbonButton" TargetType="{x:Type r:RibbonButton}">
+			<StackPanel x:Name="RibbonButtonPanel" Width="68" Height="68">
+				<Image Source="{TemplateBinding LargeImageSource}" Width="32" Height="32"></Image>
+				<TextBlock x:Name="RibbonButtonTextBlock" Text="{TemplateBinding Content}" Foreground="White" TextWrapping="Wrap" TextAlignment="Center"></TextBlock>
+			</StackPanel>
+			<ControlTemplate.Triggers>
+				<Trigger Property="IsMouseOver" Value="True">
+					<Setter TargetName="RibbonButtonPanel" Property="Background">
+						<Setter.Value>
+							<RadialGradientBrush>
+								<GradientStop Color="#88FFFFFF" Offset="0" />
+								<GradientStop Color="Transparent" Offset="1" />
+							</RadialGradientBrush>                       
+						</Setter.Value>
+					</Setter>
+				</Trigger>
+			</ControlTemplate.Triggers>
+		</ControlTemplate>
+	</Window.Resources>
+	<Grid>
+		<Grid.Background>
+			<ImageBrush ImageSource="/Utgiftshantering;component/Images/main_bg.jpg" />
+		</Grid.Background>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+        <r:Ribbon IsEnabled="{Binding LoginViewModel.Authenticated, Mode=TwoWay}"  Height="167" VerticalAlignment="Top" Margin="0,-21,0,0" SnapsToDevicePixels="True">
+			<r:Ribbon.ApplicationMenu>
+				<r:RibbonApplicationMenu OverridesDefaultStyle="True">
+				</r:RibbonApplicationMenu>
+			</r:Ribbon.ApplicationMenu>
+			<r:RibbonTab Header="Home" Background="{x:Null}">
+				<r:RibbonGroup x:Name="MainFrame" Header="">
+					<r:RibbonButton Template="{StaticResource RibbonButtonLogo}" LargeImageSource="Images/logo.png" x:Name="_buttonHome" Label="" Content="" ToolTip="Gå till förstasidan." Click="_buttonHome_Click" />
+				</r:RibbonGroup>
+				<r:RibbonGroup x:Name="Registrera" Header="Register">
+					<!--<r:RibbonButton DataContext="{x:Static data:WordModel.FormatPainter}" />-->
+					<r:RibbonButton Template="{StaticResource RibbonButton}" x:Name="_buttonRegistreraUtgift" LargeImageSource="Images/expense_icon_32.png" Label="Register Invoice" Content="Register Invoice" Click="_buttonRegistreraUtgift_Click" ToolTip="Registrerar utgifter." />
+					<r:RibbonButton Template="{StaticResource RibbonButton}" x:Name="_buttonRegistreraPerson" LargeImageSource="Images/user-icon_32.png" Label="Register person"  Content="Register person" ToolTip="Registrerar en person." Click="_buttonRegistreraPerson_Click" />
+					<r:RibbonButton Template="{StaticResource RibbonButton}" x:Name="_buttonRegistreraFöretag" LargeImageSource="Images/company-icon_32.png" Label="Register company" Content="Register company" Click="_buttonRegistreraFöretag_Click" ToolTip="Registrerar ett företag." />
+				</r:RibbonGroup>
+				<r:RibbonGroup x:Name="Inspektera" Header="Browse">
+					<r:RibbonButton Template="{StaticResource RibbonButton}" x:Name="_buttonInspekteraUtgift" LargeImageSource="Images/analysis-icon_32.png" Label="Browse Invoices" Content="Browse Invoices" Click="_buttonInspekteraUtgift_Click" ToolTip="Här kan du inspektera alla dina utgifter." BorderThickness="0" CornerRadius="2" />
+				</r:RibbonGroup>
+			</r:RibbonTab>
+			<r:Ribbon.Background>
+				<ImageBrush />
+			</r:Ribbon.Background>
+		</r:Ribbon>
+		<Frame  Name="_frame" Margin="12,118,12,29" Grid.RowSpan="2" NavigationUIVisibility="Hidden" Background="{x:Null}"></Frame>
+		<StatusBar Name="_statusBar" Grid.Row="1" Height="23" VerticalAlignment="Bottom" Opacity="0.6" />        
+	</Grid>
+</Window>

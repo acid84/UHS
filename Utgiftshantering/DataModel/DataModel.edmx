@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="UHSModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="UHSModelStoreContainer">
+    <EntitySet Name="CompanySet" EntityType="UHSModel.Store.CompanySet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvoiceSet" EntityType="UHSModel.Store.InvoiceSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvoiceRowSet" EntityType="UHSModel.Store.InvoiceRowSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PersonSet" EntityType="UHSModel.Store.PersonSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserSet" EntityType="UHSModel.Store.UserSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="PersonEntity" Association="UHSModel.Store.PersonEntity">
+      <End Role="InvoiceRow" EntitySet="InvoiceRowSet" />
+      <End Role="Person" EntitySet="PersonSet" />
+    </AssociationSet>
+    <AssociationSet Name="CompanyEntity" Association="UHSModel.Store.CompanyEntity">
+      <End Role="InvoiceRow" EntitySet="InvoiceRowSet" />
+      <End Role="Company" EntitySet="CompanySet" />
+    </AssociationSet>
+    <AssociationSet Name="InvoiceRows" Association="UHSModel.Store.InvoiceRows">
+      <End Role="Invoice" EntitySet="InvoiceSet" />
+      <End Role="InvoiceRow" EntitySet="InvoiceRowSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="CompanySet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvoiceSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvoiceName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvoiceRowSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Sum" Type="float" Nullable="false" />
+    <Property Name="Comments" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="InvoiceId" Type="int" Nullable="true" />
+    <Property Name="Person_Id" Type="int" Nullable="true" />
+    <Property Name="Company_Id" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="PersonSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="PersonEntity">
+    <End Role="InvoiceRow" Type="UHSModel.Store.InvoiceRowSet" Multiplicity="*" />
+    <End Role="Person" Type="UHSModel.Store.PersonSet" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvoiceRow">
+        <PropertyRef Name="Person_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CompanyEntity">
+    <End Role="InvoiceRow" Type="UHSModel.Store.InvoiceRowSet" Multiplicity="*" />
+    <End Role="Company" Type="UHSModel.Store.CompanySet" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvoiceRow">
+        <PropertyRef Name="Company_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvoiceRows">
+    <End Role="Invoice" Type="UHSModel.Store.InvoiceSet" Multiplicity="0..1" />
+    <End Role="InvoiceRow" Type="UHSModel.Store.InvoiceRowSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Invoice">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvoiceRow">
+        <PropertyRef Name="InvoiceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="UHSModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="UHSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CompanySet" EntityType="UHSModel.Company" />
+          <EntitySet Name="InvoiceSet" EntityType="UHSModel.Invoice" />
+          <EntitySet Name="InvoiceRowSet" EntityType="UHSModel.InvoiceRow" />
+          <EntitySet Name="PersonSet" EntityType="UHSModel.Person" />
+          <AssociationSet Name="PersonEntity" Association="UHSModel.PersonEntity">
+            <End Role="InvoiceRow" EntitySet="InvoiceRowSet" />
+            <End Role="Person" EntitySet="PersonSet" />
+          </AssociationSet>
+          <AssociationSet Name="CompanyEntity" Association="UHSModel.CompanyEntity">
+            <End Role="InvoiceRow" EntitySet="InvoiceRowSet" />
+            <End Role="Company" EntitySet="CompanySet" />
+          </AssociationSet>
+          <AssociationSet Name="InvoiceRows" Association="UHSModel.InvoiceRows">
+            <End Role="Invoice" EntitySet="InvoiceSet" />
+            <End Role="InvoiceRow" EntitySet="InvoiceRowSet" />
+          </AssociationSet>
+          <FunctionImport Name="GetAllPersons" EntitySet="PersonSet" ReturnType="Collection(UHSModel.Person)" />
+          <EntitySet Name="UserSet" EntityType="UHSModel.User" />
+        </EntityContainer>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <NavigationProperty Name="InvoiceRow" Relationship="UHSModel.CompanyEntity" FromRole="Company" ToRole="InvoiceRow" />
+        </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="InvoiceName" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <NavigationProperty Name="InvoiceRows" Relationship="UHSModel.InvoiceRows" FromRole="Invoice" ToRole="InvoiceRow" />
+        </EntityType>
+        <EntityType Name="InvoiceRow">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Double" Name="Sum" Nullable="false" />
+          <Property Type="String" Name="Comments" Nullable="false" />
+          <Property Type="Int32" Name="InvoiceId" Nullable="true" />
+          <NavigationProperty Name="Person" Relationship="UHSModel.PersonEntity" FromRole="InvoiceRow" ToRole="Person" />
+          <NavigationProperty Name="Company" Relationship="UHSModel.CompanyEntity" FromRole="InvoiceRow" ToRole="Company" />
+          <NavigationProperty Name="Invoice" Relationship="UHSModel.InvoiceRows" FromRole="InvoiceRow" ToRole="Invoice" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <NavigationProperty Name="InvoiceRow" Relationship="UHSModel.PersonEntity" FromRole="Person" ToRole="InvoiceRow" />
+        </EntityType>
+        <Association Name="PersonEntity">
+          <End Type="UHSModel.InvoiceRow" Role="InvoiceRow" Multiplicity="*" />
+          <End Type="UHSModel.Person" Role="Person" Multiplicity="0..1" />
+        </Association>
+        <Association Name="CompanyEntity">
+          <End Type="UHSModel.InvoiceRow" Role="InvoiceRow" Multiplicity="*" />
+          <End Type="UHSModel.Company" Role="Company" Multiplicity="0..1" />
+        </Association>
+        <Association Name="InvoiceRows">
+          <End Type="UHSModel.Invoice" Role="Invoice" Multiplicity="0..1" />
+          <End Type="UHSModel.InvoiceRow" Role="InvoiceRow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvoiceRow">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="UserName" Nullable="false" />
+          <Property Type="String" Name="Password" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="UHSModelStoreContainer" CdmEntityContainer="UHSEntities">
+    <EntitySetMapping Name="CompanySet">
+      <EntityTypeMapping TypeName="IsTypeOf(UHSModel.Company)">
+        <MappingFragment StoreEntitySet="CompanySet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvoiceSet">
+      <EntityTypeMapping TypeName="IsTypeOf(UHSModel.Invoice)">
+        <MappingFragment StoreEntitySet="InvoiceSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvoiceName" ColumnName="InvoiceName" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvoiceRowSet">
+      <EntityTypeMapping TypeName="IsTypeOf(UHSModel.InvoiceRow)">
+        <MappingFragment StoreEntitySet="InvoiceRowSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Sum" ColumnName="Sum" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PersonSet">
+      <EntityTypeMapping TypeName="IsTypeOf(UHSModel.Person)">
+        <MappingFragment StoreEntitySet="PersonSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserSet">
+      <EntityTypeMapping TypeName="IsTypeOf(UHSModel.User)">
+        <MappingFragment StoreEntitySet="UserSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="PersonEntity" TypeName="UHSModel.PersonEntity" StoreEntitySet="InvoiceRowSet">
+      <EndProperty Name="Person">
+        <ScalarProperty Name="Id" ColumnName="Person_Id" />
+      </EndProperty>
+      <EndProperty Name="InvoiceRow">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Person_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CompanyEntity" TypeName="UHSModel.CompanyEntity" StoreEntitySet="InvoiceRowSet">
+      <EndProperty Name="Company">
+        <ScalarProperty Name="Id" ColumnName="Company_Id" />
+      </EndProperty>
+      <EndProperty Name="InvoiceRow">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Company_Id" IsNull="false" />
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="DataModel" ZoomLevel="83">
+        <EntityTypeShape EntityType="UHSModel.Company" Width="1.5" PointX="0.875" PointY="3.75" Height="1.5956835937500031" IsExpanded="true" />
+        <EntityTypeShape EntityType="UHSModel.Invoice" Width="1.5" PointX="0.75" PointY="0.5" Height="1.787985026041671" />
+        <EntityTypeShape EntityType="UHSModel.InvoiceRow" Width="1.5" PointX="4.625" PointY="0.5" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="UHSModel.Person" Width="1.5" PointX="7.125" PointY="3.875" Height="1.5956835937500031" IsExpanded="true" />
+        <AssociationConnector Association="UHSModel.PersonEntity" >
+          <ConnectorPoint PointX="5.375" PointY="2.8648893229166674" />
+          <ConnectorPoint PointX="5.375" PointY="4.6728417968750016" />
+          <ConnectorPoint PointX="7.125" PointY="4.6728417968750016" />
+        </AssociationConnector>
+        <AssociationConnector Association="UHSModel.CompanyEntity" >
+          <ConnectorPoint PointX="4.9687475" PointY="2.8648893229166674" />
+          <ConnectorPoint PointX="4.9687475" PointY="4.2114208984375008" />
+          <ConnectorPoint PointX="2.375" PointY="4.2114208984375008" />
+        </AssociationConnector>
+        <AssociationConnector Association="UHSModel.InvoiceRows" >
+          <ConnectorPoint PointX="2.25" PointY="1.3939925130208355" />
+          <ConnectorPoint PointX="4.625" PointY="1.3939925130208355" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="UHSModel.User" Width="1.5" PointX="7.875" PointY="1.125" Height="1.59568359375" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,10 @@
+﻿<Page x:Class="Utgiftshantering.View.RegistratePersonView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="RegistreraPerson" Height="91" Width="370">
+    <Grid>
+		<Button Content="Save" Height="23" HorizontalAlignment="Right" Margin="0,12,12,0" Name="_buttonSpara" VerticalAlignment="Top" Width="75" Command="{Binding SaveCommand}" />
+        <TextBox Text="{Binding Path=Pers.Name, Mode=TwoWay}" Height="23" HorizontalAlignment="Left" Margin="58,12,0,0" Name="textBox1" VerticalAlignment="Top" Width="192" />
+        <Label Content="Name" Height="28" HorizontalAlignment="Left" Margin="10,10,0,0" Name="label1" VerticalAlignment="Top" />
+    </Grid>
+</Page>
